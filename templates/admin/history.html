@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Chat History{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<body class="admin">
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <h2></h2>
+            <img src="{{ url_for('static', filename='images/logo1.png') }}" alt="Logo">
+            <h2></h2>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('admin.dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('admin.upload') }}">Upload Knowledge</a></li>
+                    <li><a href="{{ url_for('admin.documents') }}">Documents</a></li>
+                    <li><a href="{{ url_for('admin.history') }}">Chat History</a></li>
+                    <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="admin-main">
+            <h1 style="margin-bottom: 30px;">Chat Sessions</h1>
+
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Session ID</th>
+                            <th>Created At</th>
+                            <th>Last Active</th>
+                            <th>Messages Count</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for session in sessions %}
+                        <tr>
+                            <td>{{ session.session_token[:8] }}...</td>
+                            <td>{{ session.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td>{{ session.last_active_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td>{{ session.messages | length }}</td>
+                            <td>
+                                <a href="{{ url_for('admin.view_session', session_id=session.id) }}"
+                                    class="btn btn-primary" style="padding: 4px 8px; font-size: 0.8rem;">View Thread</a>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 20px;">No chat sessions yet.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</body>
+{% endblock %}

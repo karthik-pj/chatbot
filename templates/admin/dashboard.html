@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<body class="admin">
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <h2></h2>
+            <img src="{{ url_for('static', filename='images/logo1.png') }}" alt="Logo">
+            <h2></h2>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('admin.dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('admin.upload') }}">Upload Knowledge</a></li>
+                    <li><a href="{{ url_for('admin.documents') }}">Documents</a></li>
+                    <li><a href="{{ url_for('admin.history') }}">Chat History</a></li>
+                    <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="admin-main">
+            <h1 style="margin-bottom: 30px;">Dashboard Overview</h1>
+
+            <div class="card-grid">
+                <div class="stat-card">
+                    <h3>Total Documents</h3>
+                    <div class="value">{{ total_docs }}</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Active Documents</h3>
+                    <div class="value">{{ active_docs }}</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Chat Sessions</h3>
+                    <div class="value">{{ total_sessions }}</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Messages</h3>
+                    <div class="value">{{ total_messages }}</div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+{% endblock %}

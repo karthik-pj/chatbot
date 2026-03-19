@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Upload Knowledge{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<body class="admin">
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <h2></h2>
+            <img src="{{ url_for('static', filename='images/logo1.png') }}" alt="Logo">
+            <h2></h2>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('admin.dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('admin.upload') }}">Upload Knowledge</a></li>
+                    <li><a href="{{ url_for('admin.documents') }}">Documents</a></li>
+                    <li><a href="{{ url_for('admin.history') }}">Chat History</a></li>
+                    <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="admin-main">
+            <h1 style="margin-bottom: 30px;">Upload Company Files</h1>
+
+            <div style="background: white; padding: 30px; border-radius: 8px; border: 1px solid var(--admin-border);">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label>Select files (PDF, DOCX, XLSX, TXT)</label>
+                        <input type="file" name="documents" class="form-control" multiple
+                            accept=".pdf,.docx,.xlsx,.xls,.txt" required>
+                        <p style="margin-top: 10px; font-size: 0.9rem; color: #57606a;">
+                            Upload multiple files at once. The system will automatically parse, chunk, and embed them
+                            into the vector knowledge base.
+                        </p>
+                    </div>
+                    <button type="submit" class="btn btn-primary" onclick="this.innerHTML='Processing...';">Upload and
+                        Train</button>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+{% endblock %}

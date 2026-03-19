@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %}View Session{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+<style>
+    .admin-chat-view {
+        background: #f6f8fa;
+        border: 1px solid var(--admin-border);
+        border-radius: 8px;
+        padding: 20px;
+        max-height: 600px;
+        overflow-y: auto;
+    }
+
+    .msg-blk {
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .msg-blk.user {
+        align-items: flex-end;
+    }
+
+    .msg-blk.assistant {
+        align-items: flex-start;
+    }
+
+    .msg-bubble {
+        max-width: 70%;
+        padding: 12px 16px;
+        border-radius: 8px;
+    }
+
+    .msg-blk.user .msg-bubble {
+        background: #0969da;
+        color: white;
+    }
+
+    .msg-blk.assistant .msg-bubble {
+        background: white;
+        border: 1px solid var(--admin-border);
+    }
+
+    .msg-time {
+        font-size: 0.75rem;
+        color: #57606a;
+        margin-top: 4px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<body class="admin">
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <h2></h2>
+            <img src="{{ url_for('static', filename='images/logo1.png') }}" alt="Logo">
+            <h2></h2>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('admin.dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('admin.upload') }}">Upload Knowledge</a></li>
+                    <li><a href="{{ url_for('admin.documents') }}">Documents</a></li>
+                    <li><a href="{{ url_for('admin.history') }}">Chat History</a></li>
+                    <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="admin-main">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                <h1>Session: {{ session.session_token[:8] }}...</h1>
+                <a href="{{ url_for('admin.history') }}" class="btn"
+                    style="background: white; border: 1px solid var(--admin-border);">Back to History</a>
+            </div>
+
+            <div class="admin-chat-view">
+                {% for msg in messages %}
+                <div class="msg-blk {{ msg.sender_type }}">
+                    <div class="msg-bubble">{{ msg.message_text }}</div>
+                    <div class="msg-time">{{ msg.created_at.strftime('%H:%M:%S') }}</div>
+                </div>
+                {% else %}
+                <p>No messages in this session.</p>
+                {% endfor %}
+            </div>
+        </main>
+    </div>
+</body>
+{% endblock %}
