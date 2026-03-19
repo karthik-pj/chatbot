@@ -29,6 +29,7 @@ def create_app(config_class=Config):
     
     return app
 
+# This line is required for gunicorn to find the app object
 app = create_app()
 
 if __name__ == '__main__':
